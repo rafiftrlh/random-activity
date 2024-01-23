@@ -36,12 +36,13 @@
 
         #activity {
             font-weight: 600;
+            text-align: center;
         }
 
         #type {
-            border: 2px solid rgba(0, 0, 255, .8);
+            border-top: 1px solid blue;
+            border-bottom: 1px solid blue;
             padding: 5px 10px;
-            border-radius: 100px;
         }
     </style>
 </head>
@@ -52,7 +53,7 @@
             <div class="center">Random Activity</div>
             <div class="right">
                 <ons-toolbar-button style="cursor: pointer;">
-                    <a id="screenshot">
+                    <a download id="screenshot">
                         📸
                     </a>
                 </ons-toolbar-button>
@@ -79,12 +80,26 @@
             const result = await response.json();
 
             // Display
+            const canvas = document.getElementById("canvas");
             const activity = document.getElementById("activity");
             const type = document.getElementById("type");
+            const screenshot = document.getElementById("screenshot");
 
             // 
             activity.innerHTML = result.activity;
             type.innerHTML = result.type;
+
+            // Validate
+            screenshot.textContent = "📸";
+            screenshot.removeAttribute("href");
+
+            // Event screenshot
+            screenshot.addEventListener("click", function () {
+                html2canvas(canvas).then((canvasToDownload) => {
+                    screenshot.setAttribute("href", canvasToDownload.toDataURL("image/png"));
+                    screenshot.textContent = "📥";
+                });
+            });
         }
     </script>
 </body>
