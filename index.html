@@ -13,11 +13,80 @@
     <!-- Html2canvas -->
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
-    <title>Random Quotes</title>
+    <title>Random Activity</title>
+
+    <!-- style -->
+    <style>
+        #canvas {
+            width: 100%;
+            height: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            width: 90%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #activity {
+            font-weight: 600;
+        }
+
+        #type {
+            border: 2px solid rgba(0, 0, 255, .8);
+            padding: 5px 10px;
+            border-radius: 100px;
+        }
+    </style>
 </head>
 
 <body>
+    <ons-page>
+        <ons-toolbar>
+            <div class="center">Random Activity</div>
+            <div class="right">
+                <ons-toolbar-button style="cursor: pointer;">
+                    <a id="screenshot">
+                        📸
+                    </a>
+                </ons-toolbar-button>
+            </div>
+        </ons-toolbar>
 
+        <ons-fab position="bottom right" onclick="generateActivity()" style="cursor: pointer;">
+            <ons-icon icon="md-plus"></ons-icon>
+        </ons-fab>
+
+        <div id="canvas">
+            <div class="card">
+                <h2 id="activity">Activity</h2>
+                <div id="type">Type</div>
+            </div>
+        </div>
+    </ons-page>
+
+    <script>
+        async function generateActivity() {
+            // Get api
+            const url = "https://www.boredapi.com/api/activity";
+            const response = await fetch(url);
+            const result = await response.json();
+
+            // Display
+            const activity = document.getElementById("activity");
+            const type = document.getElementById("type");
+
+            // 
+            activity.innerHTML = result.activity;
+            type.innerHTML = result.type;
+        }
+    </script>
 </body>
 
 </html>
